@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyResuMate AI Resume Builder</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+        }
+        .hero-bg {
+            background-color: #e0f2fe; /* Lighter blue for hero section */
+        }
+        .btn-primary {
+            background-color: #ef4444; /* Red color for button */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #dc2626; /* Darker red on hover */
+        }
+        .icon-box {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        .icon-box:hover {
+            transform: translateY(-5px);
+        }
+        .icon-circle {
+            background-color: #ef4444; /* Red background for icon circle */
+            color: white;
+            border-radius: 9999px; /* Fully rounded */
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .step-circle {
+            background-color: #ef4444; /* Red background for step numbers */
+            color:white ;
+            border-radius: 9999px; /* Fully rounded */
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .feature-text {
+            flex-grow: 1;
+        }
+        .feature-text h3 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .feature-text p {
+            font-size: 0.95rem;
+            color: #4b5563; /* Gray text */
+        }
+        .illustration-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Hide overflow for rounded corners */
+            border-radius: 1.5rem; /* Match overall rounded aesthetic */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .illustration-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 1.5rem; /* Apply rounded corners to the image itself */
+        }
+        .form-section {
+            display: none; /* Initially hidden */
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            font-size: 1.5rem;
+            display: none; /* Initially hidden */
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .template-card {
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .template-card:hover, .template-card.selected {
+            border-color: #ef4444;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+        }
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content, .hero-image {
+                width: 100%;
+            }
+            .hero-image {
+                margin-top: 2rem;
+            }
+            .features-grid, .how-it-works-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Hero Section -->
+    <section id="hero-section" class="hero-bg py-16 md:py-24 rounded-b-3xl shadow-lg">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+            <!-- Left Content -->
+            <div class="hero-content md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+                <div class="mb-6 flex justify-center md:justify-start">
+                    <img src="mrlogo.jpg" alt="MyResuMate Logo" style="width: 150px; height: 200px;">
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+                    MyResuMate
+                </h1>
+                <p class="text-lg md:text-xl text-gray-700 mb-8 max-w-lg mx-auto md:mx-0">
+                    Create a professional, ATS-friendly resume in minutes with AI help.
+                </p>
+                <button id="createResumeBtn" class="btn-primary inline-flex items-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                    <i class="fas fa-magic"></i>
+                    <span>Create Your Resume Now</span>
+                </button>
+            </div>
+
+            <!-- Right Image/Illustration -->
+            <div class="hero-image md:w-1/2 flex justify-center md:justify-end">
+                <div class="w-full max-w-md md:max-w-lg bg-red-500 rounded-3xl p-8 flex items-center justify-center text-center text-white font-bold text-xl h-[400px]">
+    <span>AI Resume Illustration</span>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resume Form Section (Step 1: Personal Details) -->
+    <section id="resume-form-step-1" class="form-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 1: Enter Your Details</h2>
+        <form id="step-1-form">
+            <div class="mb-4">
+                <label for="fullName" class="block text-gray-700 font-semibold mb-2">Full Name</label>
+                <input type="text" id="fullName" name="fullName" class="form-input" placeholder="e.g., Jane Doe">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="e.g., jane.doe@example.com">
+            </div>
+            <div class="mb-4">
+                <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="e.g., +1 555-123-4567">
+            </div>
+            <div class="mb-4">
+                <label for="summary" class="block text-gray-700 font-semibold mb-2">Professional Summary</label>
+                <textarea id="summary" name="summary" class="form-input" rows="4" placeholder="A brief summary of your professional experience and skills."></textarea>
+            </div>
+            <button type="button" id="nextStep1Btn" class="btn-primary w-full inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                <span>Next Step</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </section>
+
+    <!-- Resume Form Section (Step 2: Work Experience) -->
+    <section id="resume-form-step-2" class="form-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 2: Add Work Experience</h2>
+        <form id="step-2-form">
+            <div class="mb-4">
+                <label for="jobTitle" class="block text-gray-700 font-semibold mb-2">Job Title</label>
+                <input type="text" id="jobTitle" name="jobTitle" class="form-input" placeholder="e.g., Senior Software Engineer">
+            </div>
+            <div class="mb-4">
+                <label for="companyName" class="block text-gray-700 font-semibold mb-2">Company Name</label>
+                <input type="text" id="companyName" name="companyName" class="form-input" placeholder="e.g., Tech Solutions Inc.">
+            </div>
+            <div class="mb-4 flex flex-col md:flex-row gap-4">
+                <div class="w-full md:w-1/2">
+                    <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
+                    <input type="date" id="startDate" name="startDate" class="form-input">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date (or 'Present')</label>
+                    <input type="date" id="endDate" name="endDate" class="form-input">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="responsibilities" class="block text-gray-700 font-semibold mb-2">Responsibilities & Achievements</label>
+                <textarea id="responsibilities" name="responsibilities" class="form-input" rows="6" placeholder="Describe your key responsibilities and measurable achievements using bullet points."></textarea>
+            </div>
+            <div class="flex gap-4">
+                <button type="button" id="prevStep2Btn" class="btn-primary w-1/2 inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous Step</span>
+                </button>
+                <button type="button" id="nextStep2Btn" class="btn-primary w-1/2 inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                    <span>Next Step</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Resume Form Section (Step 3: Education & Skills) -->
+    <section id="resume-form-step-3" class="form-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 3: Add Education & Skills</h2>
+        <form id="step-3-form">
+            <div class="mb-4">
+                <label for="schoolName" class="block text-gray-700 font-semibold mb-2">School/University Name</label>
+                <input type="text" id="schoolName" name="schoolName" class="form-input" placeholder="e.g., University of Technology">
+            </div>
+            <div class="mb-4">
+                <label for="degree" class="block text-gray-700 font-semibold mb-2">Degree & Major</label>
+                <input type="text" id="degree" name="degree" class="form-input" placeholder="e.g., Master of Science in Computer Science">
+            </div>
+            <div class="mb-4">
+                <label for="gradDate" class="block text-gray-700 font-semibold mb-2">Graduation Date</label>
+                <input type="date" id="gradDate" name="gradDate" class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="skills" class="block text-gray-700 font-semibold mb-2">Skills</label>
+                <textarea id="skills" name="skills" class="form-input" rows="4" placeholder="e.g., JavaScript, Python, React, AWS"></textarea>
+            </div>
+            <div class="flex gap-4">
+                <button type="button" id="prevStep3Btn" class="btn-primary w-1/2 inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous Step</span>
+                </button>
+                <button type="button" id="submitBtn" class="btn-primary w-1/2 inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                    <span>Submit & Get AI Suggestions</span>
+                    <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- AI Results Section -->
+    <section id="ai-results-section" class="form-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">AI Suggestions for Your Resume</h2>
+        
+        <!-- Summary Suggestions -->
+        <div class="bg-gray-100 p-6 rounded-lg mb-8">
+            <h3 class="text-xl font-semibold mb-2">Professional Summary</h3>
+            <p>Your original summary:</p>
+            <p id="originalSummary" class="text-gray-600 italic mb-4"></p>
+            <p>AI-powered suggestions:</p>
+            <div id="aiRewrittenSummary" class="text-gray-800 leading-relaxed"></div>
+        </div>
+
+        <!-- Work Experience Suggestions -->
+        <div class="bg-gray-100 p-6 rounded-lg mb-8">
+            <h3 class="text-xl font-semibold mb-2">Work Experience Bullet Points (ATS-Friendly)</h3>
+            <p>Your original responsibilities:</p>
+            <div id="originalResponsibilities" class="text-gray-600 italic mb-4 whitespace-pre-wrap"></div>
+            <p>AI-powered suggestions:</p>
+            <div id="aiRewrittenResponsibilities" class="text-gray-800 leading-relaxed"></div>
+        </div>
+
+        <button id="downloadBtn" class="btn-primary w-full inline-flex items-center justify-center space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+            <span>Choose Template & Download Resume</span>
+            <i class="fas fa-download"></i>
+        </button>
+    </section>
+
+    <!-- Resume Templates Section -->
+    <section id="resume-templates-section" class="form-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 4: Choose a Template</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Template 1: Two-Column -->
+            <div id="template-1" class="template-card p-6 bg-gray-100 rounded-xl shadow-md">
+                <h3 class="text-xl font-bold mb-4">Template 1: Classic</h3>
+                <div class="bg-white p-4 rounded-md shadow-inner text-sm text-gray-600">
+                    <div class="flex">
+                        <div class="w-1/3 pr-4 border-r border-gray-200">
+                            <p class="font-bold">Contact</p>
+                            <p>Skills</p>
+                        </div>
+                        <div class="w-2/3 pl-4">
+                            <p class="font-bold">Summary</p>
+                            <p>Experience</p>
+                            <p>Education</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="select-template-btn btn-primary w-full mt-4" data-template="template-1">Download as PDF</button>
+            </div>
+
+            <!-- Template 2: Single-Column -->
+            <div id="template-2" class="template-card p-6 bg-gray-100 rounded-xl shadow-md">
+                <h3 class="text-xl font-bold mb-4">Template 2: Modern</h3>
+                <div class="bg-white p-4 rounded-md shadow-inner text-sm text-gray-600">
+                    <p class="font-bold text-center">Name & Contact</p>
+                    <p class="mt-2">Summary</p>
+                    <p class="mt-2">Experience</p>
+                    <p class="mt-2">Education</p>
+                    <p class="mt-2">Skills</p>
+                </div>
+                <button class="select-template-btn btn-primary w-full mt-4" data-template="template-2">Download as PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-16 md:py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">Why Choose Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- AI Rewriter -->
+                <div class="icon-box">
+                    <div class="icon-circle">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">AI Rewriter</h3>
+                    <p class="text-gray-600">Transform informal text into formal resume-ready language.</p>
+                </div>
+
+                <!-- ATS Suggestions -->
+                <div class="icon-box">
+                    <div class="icon-circle">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">ATS Suggestions</h3>
+                    <p class="text-gray-600">Suggest strong keywords based on job role.</p>
+                </div>
+
+                <!-- Templates -->
+                <div class="icon-box">
+                    <div class="icon-circle">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Templates</h3>
+                    <p class="text-gray-600">Download your resume in multiple layouts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 md:py-20 bg-white rounded-t-3xl shadow-inner">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="step-circle">1</div>
+                    <div class="feature-text">
+                        <h3 class="text-lg">Enter your details</h3>
+                        <p>Provide your skills, experience, and the job description.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="step-circle">2</div>
+                    <div class="feature-text">
+                        <h3 class="text-lg">AI-polish your input</h3>
+                        <p>Our AI agent will refine and tailor your resume content.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="step-circle">3</div>
+                    <div class="feature-text">
+                        <h3 class="text-lg">Pick template & Download resume</h3>
+                        <p>Choose a template and download your perfectly crafted resume.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="flex items-center space-x-4">
+            <div class="loading-spinner"></div>
+            <span>Generating AI Suggestions...</span>
+        </div>
+    </div>
+
+    <!-- Hidden element for PDF generation -->
+    <div id="resume-container" class="hidden"></div>
+
+
+    <script>
+        // Get references to all sections and buttons
+        const heroSection = document.getElementById('hero-section');
+        const resumeFormStep1 = document.getElementById('resume-form-step-1');
+        const resumeFormStep2 = document.getElementById('resume-form-step-2');
+        const resumeFormStep3 = document.getElementById('resume-form-step-3');
+        const aiResultsSection = document.getElementById('ai-results-section');
+        const resumeTemplatesSection = document.getElementById('resume-templates-section');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const createResumeBtn = document.getElementById('createResumeBtn');
+        const originalSummaryEl = document.getElementById('originalSummary');
+        const aiRewrittenSummaryEl = document.getElementById('aiRewrittenSummary');
+        const originalResponsibilitiesEl = document.getElementById('originalResponsibilities');
+        const aiRewrittenResponsibilitiesEl = document.getElementById('aiRewrittenResponsibilities');
+        const resumeContainer = document.getElementById('resume-container');
+
+        // Buttons for step navigation
+        const nextStep1Btn = document.getElementById('nextStep1Btn');
+        const prevStep2Btn = document.getElementById('prevStep2Btn');
+        const nextStep2Btn = document.getElementById('nextStep2Btn');
+        const prevStep3Btn = document.getElementById('prevStep3Btn');
+        const submitBtn = document.getElementById('submitBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Global object to hold resume data
+        let resumeData = {};
+
+        // Add event listener to the "Create Your Resume Now" button
+        createResumeBtn.addEventListener('click', function() {
+            heroSection.classList.add('hidden');
+            resumeFormStep1.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add event listener for "Next Step" from Step 1 to Step 2
+        nextStep1Btn.addEventListener('click', function() {
+            // Save data from Step 1
+            resumeData.fullName = document.getElementById('fullName').value;
+            resumeData.email = document.getElementById('email').value;
+            resumeData.phone = document.getElementById('phone').value;
+            resumeData.summary = document.getElementById('summary').value;
+
+            resumeFormStep1.style.display = 'none';
+            resumeFormStep2.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add event listener for "Previous Step" from Step 2 to Step 1
+        prevStep2Btn.addEventListener('click', function() {
+            resumeFormStep2.style.display = 'none';
+            resumeFormStep1.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add event listener for "Next Step" from Step 2 to Step 3
+        nextStep2Btn.addEventListener('click', function() {
+            // Save data from Step 2
+            resumeData.jobTitle = document.getElementById('jobTitle').value;
+            resumeData.companyName = document.getElementById('companyName').value;
+            resumeData.startDate = document.getElementById('startDate').value;
+            resumeData.endDate = document.getElementById('endDate').value;
+            resumeData.responsibilities = document.getElementById('responsibilities').value;
+
+            resumeFormStep2.style.display = 'none';
+            resumeFormStep3.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add event listener for "Previous Step" from Step 3 to Step 2
+        prevStep3Btn.addEventListener('click', function() {
+            resumeFormStep3.style.display = 'none';
+            resumeFormStep2.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add event listener to the final "Submit" button in Step 3
+        submitBtn.addEventListener('click', async function() {
+            // Save data from Step 3
+            resumeData.schoolName = document.getElementById('schoolName').value;
+            resumeData.degree = document.getElementById('degree').value;
+            resumeData.gradDate = document.getElementById('gradDate').value;
+            resumeData.skills = document.getElementById('skills').value;
+
+            loadingOverlay.style.display = 'flex';
+            const originalSummary = resumeData.summary;
+            const originalResponsibilities = resumeData.responsibilities;
+
+            try {
+                // --- API Call for Summary ---
+                const summaryPrompt = `Rewrite the following professional summary to be more impactful and professional for a resume. Focus on achievements and quantifiable results where possible. Keep it concise.
+                
+                Original Summary: "${originalSummary}"`;
+
+                let summaryChatHistory = [];
+                summaryChatHistory.push({ role: "user", parts: [{ text: summaryPrompt }] });
+                const summaryPayload = { contents: summaryChatHistory };
+                
+                // --- API Call for Responsibilities (ATS) ---
+                const responsibilitiesPrompt = `For a ${resumeData.jobTitle} at ${resumeData.companyName}, rewrite the following responsibilities into a list of 5-7 ATS-friendly bullet points. Start each bullet point with a strong action verb. Focus on quantifiable results and key achievements.
+                
+                Original responsibilities: "${originalResponsibilities}"`;
+
+                let responsibilitiesChatHistory = [];
+                responsibilitiesChatHistory.push({ role: "user", parts: [{ text: responsibilitiesPrompt }] });
+                const responsibilitiesPayload = { contents: responsibilitiesChatHistory };
+                
+                const apiKey = "Your api key" // <--- Place your API key here
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const apiCall = async (payload) => {
+                    let response;
+                    let delay = 1000;
+                    for (let i = 0; i < 5; i++) {
+                        try {
+                            response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                            if (response.status !== 429) break; // Break if not a rate limit error
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            delay *= 2;
+                        } catch (error) {
+                            if (i < 4) {
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                                delay *= 2;
+                            } else {
+                                throw error;
+                            }
+                        }
+                    }
+                    if (!response || !response.ok) {
+                        throw new Error(`API call failed with status: ${response ? response.status : 'No response'}`);
+                    }
+                    return await response.json();
+                };
+
+                const [summaryResult, responsibilitiesResult] = await Promise.all([
+                    apiCall(summaryPayload),
+                    apiCall(responsibilitiesPayload)
+                ]);
+
+                // Process Summary Result
+                let rewrittenSummary = "No suggestions could be generated.";
+                if (summaryResult.candidates && summaryResult.candidates.length > 0 &&
+                    summaryResult.candidates[0].content && summaryResult.candidates[0].content.parts &&
+                    summaryResult.candidates[0].content.parts.length > 0) {
+                    rewrittenSummary = summaryResult.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Unexpected API response structure for summary:", summaryResult);
+                }
+                resumeData.aiSummary = rewrittenSummary;
+                originalSummaryEl.textContent = originalSummary;
+                aiRewrittenSummaryEl.innerHTML = rewrittenSummary.replace(/\n/g, '<br>');
+
+                // Process Responsibilities Result
+                let rewrittenResponsibilities = "No suggestions could be generated.";
+                if (responsibilitiesResult.candidates && responsibilitiesResult.candidates.length > 0 &&
+                    responsibilitiesResult.candidates[0].content && responsibilitiesResult.candidates[0].content.parts &&
+                    responsibilitiesResult.candidates[0].content.parts.length > 0) {
+                    rewrittenResponsibilities = responsibilitiesResult.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Unexpected API response structure for responsibilities:", responsibilitiesResult);
+                }
+                resumeData.aiResponsibilities = rewrittenResponsibilities;
+                originalResponsibilitiesEl.textContent = originalResponsibilities;
+                aiRewrittenResponsibilitiesEl.innerHTML = rewrittenResponsibilities.replace(/\n/g, '<br>');
+
+
+                // Hide the form and show the results section
+                resumeFormStep3.style.display = 'none';
+                aiResultsSection.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                const messageBox = document.createElement('div');
+                messageBox.classList.add('fixed', 'top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'bg-white', 'p-8', 'rounded-lg', 'shadow-2xl', 'text-center', 'z-50', 'w-11/12', 'md:w-1/3');
+                messageBox.innerHTML = `
+                    <p class="text-xl font-bold mb-4 text-red-500">Oops, something went wrong!</p>
+                    <p class="text-gray-700">Failed to get AI suggestions. Please try again.</p>
+                    <button onclick="this.parentNode.remove()" class="mt-4 px-6 py-2 bg-red-500 text-white rounded-md font-semibold hover:bg-red-600 transition">OK</button>
+                `;
+                document.body.appendChild(messageBox);
+
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+        
+        // Event listener for the "Choose Template" button
+        downloadBtn.addEventListener('click', function() {
+            aiResultsSection.style.display = 'none';
+            resumeTemplatesSection.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Event listeners for template selection buttons
+        document.querySelectorAll('.select-template-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const templateId = this.getAttribute('data-template');
+                generateAndDownloadResume(templateId);
+            });
+        });
+
+        // Function to generate and download the resume
+        function generateAndDownloadResume(templateId) {
+            let resumeContentHtml = '';
+            
+            // Generate content based on the selected template
+            if (templateId === 'template-1') {
+                // Classic Two-Column Template
+                resumeContentHtml = `
+                    <div class="p-8 font-inter">
+                        <div class="flex">
+                            <div class="w-1/3 pr-8 text-gray-700">
+                                <h2 class="text-xl font-bold mb-2 text-red-500">${resumeData.fullName}</h2>
+                                <p class="text-sm">${resumeData.email}</p>
+                                <p class="text-sm">${resumeData.phone}</p>
+                                
+                                <h3 class="text-lg font-semibold mt-6 mb-2 text-red-500">Skills</h3>
+                                <p class="text-sm">${resumeData.skills}</p>
+
+                                <h3 class="text-lg font-semibold mt-6 mb-2 text-red-500">Education</h3>
+                                <p class="text-sm font-semibold">${resumeData.degree}</p>
+                                <p class="text-xs">${resumeData.schoolName}</p>
+                                <p class="text-xs text-gray-500">${resumeData.gradDate}</p>
+                            </div>
+                            <div class="w-2/3 pl-8 border-l-2 border-gray-200">
+                                <h3 class="text-lg font-semibold mb-2 text-red-500">Professional Summary</h3>
+                                <p class="text-sm">${resumeData.aiSummary}</p>
+                                
+                                <h3 class="text-lg font-semibold mt-6 mb-2 text-red-500">Work Experience</h3>
+                                <p class="text-base font-semibold">${resumeData.jobTitle}</p>
+                                <p class="text-sm italic">${resumeData.companyName} | ${resumeData.startDate} - ${resumeData.endDate}</p>
+                                <ul class="list-disc list-inside text-sm mt-2">
+                                    ${resumeData.aiResponsibilities.split('\n').map(item => item.trim() ? `<li>${item.replace(/^- /, '')}</li>` : '').join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (templateId === 'template-2') {
+                // Modern Single-Column Template
+                resumeContentHtml = `
+                    <div class="p-8 font-inter">
+                        <div class="text-center pb-4 border-b-2 border-red-500">
+                            <h1 class="text-3xl font-bold text-gray-900">${resumeData.fullName}</h1>
+                            <p class="text-sm text-gray-600">${resumeData.email} | ${resumeData.phone}</p>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h2 class="text-xl font-bold text-red-500 border-b-2 border-gray-200 pb-1">Professional Summary</h2>
+                            <p class="text-sm mt-2">${resumeData.aiSummary}</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <h2 class="text-xl font-bold text-red-500 border-b-2 border-gray-200 pb-1">Work Experience</h2>
+                            <p class="text-base font-semibold mt-2">${resumeData.jobTitle}</p>
+                            <p class="text-sm italic text-gray-600">${resumeData.companyName} | ${resumeData.startDate} - ${resumeData.endDate}</p>
+                            <ul class="list-disc list-inside text-sm mt-2">
+                                ${resumeData.aiResponsibilities.split('\n').map(item => item.trim() ? `<li>${item.replace(/^- /, '')}</li>` : '').join('')}
+                            </ul>
+                        </div>
+
+                        <div class="mt-6">
+                            <h2 class="text-xl font-bold text-red-500 border-b-2 border-gray-200 pb-1">Education</h2>
+                            <p class="text-base font-semibold mt-2">${resumeData.degree}</p>
+                            <p class="text-sm text-gray-600">${resumeData.schoolName} | ${resumeData.gradDate}</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <h2 class="text-xl font-bold text-red-500 border-b-2 border-gray-200 pb-1">Skills</h2>
+                            <p class="text-sm mt-2">${resumeData.skills}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Set the content of the hidden container
+            resumeContainer.innerHTML = resumeContentHtml;
+
+            // Make the container visible temporarily for the PDF library
+            resumeContainer.classList.remove('hidden');
+
+            // Use html2pdf to generate and download the PDF
+            html2pdf().from(resumeContainer).set({
+                margin: 0.5,
+                filename: `${resumeData.fullName.replace(/\s/g, '_')}_Resume.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            }).save().then(() => {
+                // Re-hide the container after the PDF has been saved
+                resumeContainer.classList.add('hidden');
+            });
+        }
+
+    </script>
+
+</body>
+</html>
