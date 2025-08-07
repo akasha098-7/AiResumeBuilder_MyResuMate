@@ -35,6 +35,9 @@ Gemini API: The core AI model providing intelligent content suggestions for summ
 Backend (Conceptual for API Security):
 
 A secure backend endpoint (e.g., Node.js with Express, Python with Flask, or a serverless function) is conceptually used to securely handle the Gemini API key and proxy requests from the frontend to the Gemini API. This prevents exposing the API key in client-side code.
+
+#Demo video link:https://drive.google.com/file/d/1J9J1D9TxkMlM5fjRDJpvOxutJv9Jzpfp/view?usp=sharing
+
 💡 Future Enhancements
 User Authentication: Implement user accounts to save and manage multiple resumes.
 
