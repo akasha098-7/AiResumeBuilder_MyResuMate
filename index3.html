@@ -15,13 +15,13 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Light blue-gray background */
+            background-color: #f8fafc; 
         }
         .hero-bg {
-            background-color: #e0f2fe; /* Lighter blue for hero section */
+            background-color: #e0f2fe; 
         }
         .btn-primary {
-            background-color: #ef4444; /* Red color for button */
+            background-color: #ef4444; 
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
@@ -29,12 +29,12 @@
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #dc2626; /* Darker red on hover */
+            background-color: #dc2626; 
         }
         .icon-box {
             background-color: #ffffff;
-            border-radius: 0.75rem; /* Rounded corners */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
@@ -46,9 +46,9 @@
             transform: translateY(-5px);
         }
         .icon-circle {
-            background-color: #ef4444; /* Red background for icon circle */
+            background-color: #ef4444; 
             color: white;
-            border-radius: 9999px; /* Fully rounded */
+            border-radius: 9999px; 
             width: 3rem;
             height: 3rem;
             display: flex;
@@ -58,9 +58,9 @@
             margin-bottom: 1rem;
         }
         .step-circle {
-            background-color: #ef4444; /* Red background for step numbers */
+            background-color: #ef4444; 
             color:white ;
-            border-radius: 9999px; /* Fully rounded */
+            border-radius: 9999px; 
             width: 2.5rem;
             height: 2.5rem;
             display: flex;
@@ -69,7 +69,7 @@
             font-weight: 600;
             font-size: 1.125rem;
             margin-right: 0.75rem;
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
         .feature-item {
             display: flex;
@@ -85,7 +85,7 @@
         }
         .feature-text p {
             font-size: 0.95rem;
-            color: #4b5563; /* Gray text */
+            color: #4b5563;
         }
         .illustration-container {
             position: relative;
@@ -94,18 +94,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Hide overflow for rounded corners */
-            border-radius: 1.5rem; /* Match overall rounded aesthetic */
+            overflow: hidden; 
+            border-radius: 1.5rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .illustration-container img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 1.5rem; /* Apply rounded corners to the image itself */
+            border-radius: 1.5rem; 
         }
         .form-section {
-            display: none; /* Initially hidden */
+            display: none; 
             max-width: 800px;
             margin: 2rem auto;
             padding: 2rem;
@@ -141,7 +141,7 @@
             z-index: 9999;
             color: white;
             font-size: 1.5rem;
-            display: none; /* Initially hidden */
+            display: none;
         }
         .loading-spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
@@ -183,10 +183,10 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- Hero Section -->
+   
     <section id="hero-section" class="hero-bg py-16 md:py-24 rounded-b-3xl shadow-lg">
         <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-            <!-- Left Content -->
+           
             <div class="hero-content md:w-1/2 text-center md:text-left mb-10 md:mb-0">
                 <div class="mb-6 flex justify-center md:justify-start">
                     <img src="mrlogo.jpg" alt="MyResuMate Logo" style="width: 150px; height: 200px;">
@@ -203,7 +203,7 @@
                 </button>
             </div>
 
-            <!-- Right Image/Illustration -->
+           
             <div class="hero-image md:w-1/2 flex justify-center md:justify-end">
                 <div class="w-full max-w-md md:max-w-lg bg-red-500 rounded-3xl p-8 flex items-center justify-center text-center text-white font-bold text-xl h-[400px]">
     <span>AI Resume Illustration</span>
@@ -212,7 +212,7 @@
         </div>
     </section>
 
-    <!-- Resume Form Section (Step 1: Personal Details) -->
+   
     <section id="resume-form-step-1" class="form-section">
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 1: Enter Your Details</h2>
         <form id="step-1-form">
@@ -239,7 +239,7 @@
         </form>
     </section>
 
-    <!-- Resume Form Section (Step 2: Work Experience) -->
+ 
     <section id="resume-form-step-2" class="form-section">
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 2: Add Work Experience</h2>
         <form id="step-2-form">
@@ -278,7 +278,7 @@
         </form>
     </section>
 
-    <!-- Resume Form Section (Step 3: Education & Skills) -->
+    
     <section id="resume-form-step-3" class="form-section">
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 3: Add Education & Skills</h2>
         <form id="step-3-form">
@@ -311,11 +311,11 @@
         </form>
     </section>
 
-    <!-- AI Results Section -->
+  
     <section id="ai-results-section" class="form-section">
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">AI Suggestions for Your Resume</h2>
         
-        <!-- Summary Suggestions -->
+        
         <div class="bg-gray-100 p-6 rounded-lg mb-8">
             <h3 class="text-xl font-semibold mb-2">Professional Summary</h3>
             <p>Your original summary:</p>
@@ -324,7 +324,7 @@
             <div id="aiRewrittenSummary" class="text-gray-800 leading-relaxed"></div>
         </div>
 
-        <!-- Work Experience Suggestions -->
+        
         <div class="bg-gray-100 p-6 rounded-lg mb-8">
             <h3 class="text-xl font-semibold mb-2">Work Experience Bullet Points (ATS-Friendly)</h3>
             <p>Your original responsibilities:</p>
@@ -339,7 +339,7 @@
         </button>
     </section>
 
-    <!-- Resume Templates Section -->
+   
     <section id="resume-templates-section" class="form-section">
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Step 4: Choose a Template</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -362,7 +362,7 @@
                 <button class="select-template-btn btn-primary w-full mt-4" data-template="template-1">Download as PDF</button>
             </div>
 
-            <!-- Template 2: Single-Column -->
+            
             <div id="template-2" class="template-card p-6 bg-gray-100 rounded-xl shadow-md">
                 <h3 class="text-xl font-bold mb-4">Template 2: Modern</h3>
                 <div class="bg-white p-4 rounded-md shadow-inner text-sm text-gray-600">
@@ -377,7 +377,6 @@
         </div>
     </section>
 
-    <!-- Why Choose Us Section -->
     <section class="py-16 md:py-20">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">Why Choose Us</h2>
@@ -391,7 +390,7 @@
                     <p class="text-gray-600">Transform informal text into formal resume-ready language.</p>
                 </div>
 
-                <!-- ATS Suggestions -->
+               
                 <div class="icon-box">
                     <div class="icon-circle">
                         <i class="fas fa-search"></i>
@@ -400,7 +399,7 @@
                     <p class="text-gray-600">Suggest strong keywords based on job role.</p>
                 </div>
 
-                <!-- Templates -->
+                
                 <div class="icon-box">
                     <div class="icon-circle">
                         <i class="fas fa-file-alt"></i>
@@ -412,7 +411,7 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
+   
     <section class="py-16 md:py-20 bg-white rounded-t-3xl shadow-inner">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">How It Works</h2>
@@ -426,7 +425,7 @@
                     </div>
                 </div>
 
-                <!-- Step 2 -->
+                
                 <div class="flex items-start p-4 bg-gray-50 rounded-lg shadow-sm">
                     <div class="step-circle">2</div>
                     <div class="feature-text">
@@ -435,7 +434,7 @@
                     </div>
                 </div>
 
-                <!-- Step 3 -->
+              
                 <div class="flex items-start p-4 bg-gray-50 rounded-lg shadow-sm">
                     <div class="step-circle">3</div>
                     <div class="feature-text">
@@ -447,7 +446,7 @@
         </div>
     </section>
 
-    <!-- Loading Overlay -->
+   
     <div id="loading-overlay" class="loading-overlay">
         <div class="flex items-center space-x-4">
             <div class="loading-spinner"></div>
@@ -455,12 +454,11 @@
         </div>
     </div>
 
-    <!-- Hidden element for PDF generation -->
     <div id="resume-container" class="hidden"></div>
 
 
     <script>
-        // Get references to all sections and buttons
+      
         const heroSection = document.getElementById('hero-section');
         const resumeFormStep1 = document.getElementById('resume-form-step-1');
         const resumeFormStep2 = document.getElementById('resume-form-step-2');
@@ -475,7 +473,6 @@
         const aiRewrittenResponsibilitiesEl = document.getElementById('aiRewrittenResponsibilities');
         const resumeContainer = document.getElementById('resume-container');
 
-        // Buttons for step navigation
         const nextStep1Btn = document.getElementById('nextStep1Btn');
         const prevStep2Btn = document.getElementById('prevStep2Btn');
         const nextStep2Btn = document.getElementById('nextStep2Btn');
@@ -483,19 +480,17 @@
         const submitBtn = document.getElementById('submitBtn');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        // Global object to hold resume data
         let resumeData = {};
 
-        // Add event listener to the "Create Your Resume Now" button
+       
         createResumeBtn.addEventListener('click', function() {
             heroSection.classList.add('hidden');
             resumeFormStep1.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Add event listener for "Next Step" from Step 1 to Step 2
         nextStep1Btn.addEventListener('click', function() {
-            // Save data from Step 1
+           
             resumeData.fullName = document.getElementById('fullName').value;
             resumeData.email = document.getElementById('email').value;
             resumeData.phone = document.getElementById('phone').value;
@@ -506,14 +501,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Add event listener for "Previous Step" from Step 2 to Step 1
         prevStep2Btn.addEventListener('click', function() {
             resumeFormStep2.style.display = 'none';
             resumeFormStep1.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Add event listener for "Next Step" from Step 2 to Step 3
+       
         nextStep2Btn.addEventListener('click', function() {
             // Save data from Step 2
             resumeData.jobTitle = document.getElementById('jobTitle').value;
@@ -527,16 +521,16 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Add event listener for "Previous Step" from Step 3 to Step 2
+        
         prevStep3Btn.addEventListener('click', function() {
             resumeFormStep3.style.display = 'none';
             resumeFormStep2.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Add event listener to the final "Submit" button in Step 3
+       
         submitBtn.addEventListener('click', async function() {
-            // Save data from Step 3
+           
             resumeData.schoolName = document.getElementById('schoolName').value;
             resumeData.degree = document.getElementById('degree').value;
             resumeData.gradDate = document.getElementById('gradDate').value;
@@ -547,7 +541,7 @@
             const originalResponsibilities = resumeData.responsibilities;
 
             try {
-                // --- API Call for Summary ---
+               
                 const summaryPrompt = `Rewrite the following professional summary to be more impactful and professional for a resume. Focus on achievements and quantifiable results where possible. Keep it concise.
                 
                 Original Summary: "${originalSummary}"`;
@@ -556,7 +550,6 @@
                 summaryChatHistory.push({ role: "user", parts: [{ text: summaryPrompt }] });
                 const summaryPayload = { contents: summaryChatHistory };
                 
-                // --- API Call for Responsibilities (ATS) ---
                 const responsibilitiesPrompt = `For a ${resumeData.jobTitle} at ${resumeData.companyName}, rewrite the following responsibilities into a list of 5-7 ATS-friendly bullet points. Start each bullet point with a strong action verb. Focus on quantifiable results and key achievements.
                 
                 Original responsibilities: "${originalResponsibilities}"`;
@@ -565,7 +558,7 @@
                 responsibilitiesChatHistory.push({ role: "user", parts: [{ text: responsibilitiesPrompt }] });
                 const responsibilitiesPayload = { contents: responsibilitiesChatHistory };
                 
-                const apiKey = "Your api key" // <--- Place your API key here
+                const apiKey = "Your api key" 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
                 const apiCall = async (payload) => {
@@ -578,7 +571,7 @@
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(payload)
                             });
-                            if (response.status !== 429) break; // Break if not a rate limit error
+                            if (response.status !== 429) break;
                             await new Promise(resolve => setTimeout(resolve, delay));
                             delay *= 2;
                         } catch (error) {
@@ -601,7 +594,7 @@
                     apiCall(responsibilitiesPayload)
                 ]);
 
-                // Process Summary Result
+                
                 let rewrittenSummary = "No suggestions could be generated.";
                 if (summaryResult.candidates && summaryResult.candidates.length > 0 &&
                     summaryResult.candidates[0].content && summaryResult.candidates[0].content.parts &&
@@ -614,7 +607,6 @@
                 originalSummaryEl.textContent = originalSummary;
                 aiRewrittenSummaryEl.innerHTML = rewrittenSummary.replace(/\n/g, '<br>');
 
-                // Process Responsibilities Result
                 let rewrittenResponsibilities = "No suggestions could be generated.";
                 if (responsibilitiesResult.candidates && responsibilitiesResult.candidates.length > 0 &&
                     responsibilitiesResult.candidates[0].content && responsibilitiesResult.candidates[0].content.parts &&
@@ -628,7 +620,7 @@
                 aiRewrittenResponsibilitiesEl.innerHTML = rewrittenResponsibilities.replace(/\n/g, '<br>');
 
 
-                // Hide the form and show the results section
+               
                 resumeFormStep3.style.display = 'none';
                 aiResultsSection.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -649,14 +641,14 @@
             }
         });
         
-        // Event listener for the "Choose Template" button
+        
         downloadBtn.addEventListener('click', function() {
             aiResultsSection.style.display = 'none';
             resumeTemplatesSection.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Event listeners for template selection buttons
+       
         document.querySelectorAll('.select-template-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const templateId = this.getAttribute('data-template');
@@ -664,13 +656,13 @@
             });
         });
 
-        // Function to generate and download the resume
+        
         function generateAndDownloadResume(templateId) {
             let resumeContentHtml = '';
             
-            // Generate content based on the selected template
+            
             if (templateId === 'template-1') {
-                // Classic Two-Column Template
+                
                 resumeContentHtml = `
                     <div class="p-8 font-inter">
                         <div class="flex">
@@ -702,7 +694,7 @@
                     </div>
                 `;
             } else if (templateId === 'template-2') {
-                // Modern Single-Column Template
+               
                 resumeContentHtml = `
                     <div class="p-8 font-inter">
                         <div class="text-center pb-4 border-b-2 border-red-500">
@@ -738,13 +730,13 @@
                 `;
             }
 
-            // Set the content of the hidden container
+            
             resumeContainer.innerHTML = resumeContentHtml;
 
-            // Make the container visible temporarily for the PDF library
+            
             resumeContainer.classList.remove('hidden');
 
-            // Use html2pdf to generate and download the PDF
+            
             html2pdf().from(resumeContainer).set({
                 margin: 0.5,
                 filename: `${resumeData.fullName.replace(/\s/g, '_')}_Resume.pdf`,
@@ -752,7 +744,7 @@
                 html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             }).save().then(() => {
-                // Re-hide the container after the PDF has been saved
+                
                 resumeContainer.classList.add('hidden');
             });
         }
@@ -761,3 +753,4 @@
 
 </body>
 </html>
+
